@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AstrX\Controller;
+namespace AstrX\Content\Controller;
 
 use AstrX\Auth\Gate;
 use AstrX\Auth\Permission;
@@ -12,9 +12,10 @@ use AstrX\I18n\Translator;
 use AstrX\Result\DiagnosticsCollector;
 use AstrX\Result\Result;
 use AstrX\Routing\CurrentUrl;
-use AstrX\Site\DefaultTemplateContext;
+use AstrX\Template\TemplateVars;
 use AstrX\User\UserSession;
 use function AstrX\Support\langDir;
+use AstrX\Kernel\AbstractController;
 
 /**
  * Public content pages (W/wcms-inspired). One route, three modes:
@@ -32,7 +33,7 @@ final class ContentController extends AbstractController
 {
     public function __construct(
         DiagnosticsCollector                    $collector,
-        private readonly DefaultTemplateContext $ctx,
+        private readonly TemplateVars $ctx,
         private readonly Request                $request,
         private readonly Gate                   $gate,
         private readonly Translator             $t,
