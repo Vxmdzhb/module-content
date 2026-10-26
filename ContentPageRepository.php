@@ -14,7 +14,7 @@ use PDOException;
  * Data access for the content module: the Markdown pages (`content_page`) and
  * their `[[wiki]]` link graph (`content_link`).
  *
- * Visibility model (R8):
+ * Visibility model:
  *   - `visible`     TINYINT  — the published/draft master toggle (0 = draft).
  *   - `visibility`  VARCHAR  — 'public' | 'unlisted' | 'private'.
  *   - `publish_at`  ?int     — unix ts; NULL = live immediately.
@@ -157,14 +157,11 @@ final class ContentPageRepository
     }
 
     /**
-     * Insert (id=0) or update a page, then rebuild its link graph. Returns the id.
+     * Insert (id=0) or update a page, then rebuild its link graph. Returns the
+     * id.
      *
-     * Runs in ONE transaction. It used to write the page row, then DELETE and
-     * re-INSERT every outbound link in autocommit: a failure part-way through
-     * left the page saved with a truncated link graph AND returned err, so the
-     * admin was told the save had failed while half of it had in fact
-     * committed. Either the page and its whole link graph land together, or
-     * nothing does and the err is the truth.
+     * All in one transaction: either the page and its whole link graph are saved
+     * together, or nothing is and the error is the truth.
      *
      * @return Result<int>
      */
@@ -178,11 +175,9 @@ final class ContentPageRepository
         ?int $publishAt,
         ?int $expireAt,
     ): Result {
-        // An unrecognised visibility used to normalise to 'public' — the MOST
-        // open of the three — so a typo, or a form field that simply failed to
-        // post, PUBLISHED the page. Fall back to what the page already is, and
-        // to 'private' for a page that does not exist yet, so a bad value can
-        // only ever narrow the audience.
+        // An unknown visibility keeps what the page already has, or 'private' for a
+        // new page, so a typo or a missing form field can only narrow the audience,
+        // never publish a page.
         if (!in_array($visibility, ['public', 'unlisted', 'private'], true)) {
             $visibility = $id > 0 ? $this->currentVisibility($id) : 'private';
         }

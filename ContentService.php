@@ -15,7 +15,7 @@ use AstrX\Routing\UrlGenerator;
  * through {@see UrlGenerator} so links stay locale-correct and host-relative
  * (Tor-safe).
  *
- * Visibility policy (R8) lives here: {@see isLive()} and {@see canView()} decide
+ * Visibility policy lives here: {@see isLive()} and {@see canView()} decide
  * whether a page is reachable; the repo applies the matching SQL filters for the
  * listing/graph/backlink sets.
  *

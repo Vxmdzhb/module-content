@@ -184,7 +184,7 @@ final class AdminContentController extends AbstractController
         $this->ctx->set('f_visible', $edit === null ? true : $edit['visible']);
         $this->ctx->set('f_view_url', $edit !== null ? $this->service->pageUrl($edit['slug']) : '');
 
-        // Visibility state + scheduling (R8).
+        // Visibility state + scheduling.
         $curVis = $edit['visibility'] ?? 'public';
         $this->ctx->set('f_vis_public',   $curVis === 'public');
         $this->ctx->set('f_vis_unlisted', $curVis === 'unlisted');

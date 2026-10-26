@@ -44,7 +44,7 @@ return [
     'content.admin.save_failed'     => 'Impossibile salvare la pagina — lo slug è già in uso?',
     'content.admin.deleted'         => 'Pagina eliminata.',
 
-    // ── Stati di visibilità + pianificazione (R8) ───────────────────────────
+    // ── Stati di visibilità + pianificazione ───────────────────────────
     'content.admin.visibility'      => 'Visibilità',
     'content.admin.publish_at'      => 'Pubblica il',
     'content.admin.expire_at'       => 'Scade il',

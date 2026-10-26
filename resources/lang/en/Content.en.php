@@ -45,7 +45,7 @@ return [
     'content.admin.save_failed'     => 'Could not save the page — is the slug already taken?',
     'content.admin.deleted'         => 'Page deleted.',
 
-    // ── Visibility states + scheduling (R8) ─────────────────────────────────
+    // ── Visibility states + scheduling ─────────────────────────────────
     'content.admin.visibility'      => 'Visibility',
     'content.admin.publish_at'      => 'Publish at',
     'content.admin.expire_at'       => 'Expire at',
