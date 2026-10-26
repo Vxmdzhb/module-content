@@ -2,6 +2,8 @@
 
 Markdown pages with wiki links, backlinks, a page graph and a broken-link checker — the **Content** module of [AstrX](https://github.com/Vxmdzhb/astrx).
 
+![A wiki page with its backlinks](docs/screenshot.png)
+
 - Module key: `content` (switch it on in the site's `resources/config/Modules.config.php`)
 - Pages: `admin_content`, `content`
 - Requires: `astrx/cms`, `astrx/framework`, `astrx/library`
