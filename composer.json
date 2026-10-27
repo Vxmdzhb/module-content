@@ -1,6 +1,7 @@
 {
     "name": "astrx/module-content",
     "description": "Markdown pages with wiki links, backlinks, a page graph and a broken-link checker",
+    "license": "LicenseRef-DoWhatever",
     "type": "astrx-module",
     "keywords": [
         "astrx",
