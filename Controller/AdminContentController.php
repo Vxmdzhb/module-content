@@ -157,7 +157,7 @@ final class AdminContentController extends AbstractController
                 'visibility' => $row['visibility'],
                 'state'      => $this->t->t($stateKey !== '' ? $stateKey : 'content.state.public'),
                 'view_url'   => $this->service->pageUrl($row['slug']),
-                'edit_url'   => $selfUrl . '?edit=' . $row['id'],
+                'edit_url'   => $selfUrl . (str_contains($selfUrl, '?') ? '&' : '?') . 'edit=' . $row['id'],
                 'updated_at' => $row['updated_at'],
             ];
         }

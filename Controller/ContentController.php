@@ -55,7 +55,7 @@ final class ContentController extends AbstractController
             exit;
         }
 
-        $slug = self::str($this->currentUrl->tailSegment(0));
+        $slug = $this->currentUrl->tailSegment(0) ?? self::queryStr($this->request, 'slug');
         $view = self::queryStr($this->request, 'view');
 
         $isLoggedIn = $this->session->isLoggedIn();

@@ -41,7 +41,9 @@ final class ContentService
     /** Public URL of a content page by slug. */
     public function pageUrl(string $slug): string
     {
-        return $this->base() . '/' . rawurlencode($slug);
+        return $this->config->getConfigBool('Routing', 'url_rewrite', true)
+            ? $this->base() . '/' . rawurlencode($slug)
+            : $this->urlGen->toPage($this->contentSlug(), ['slug' => $slug]);
     }
 
     /** The content index URL (/<locale>/pages). */
@@ -53,7 +55,7 @@ final class ContentService
     /** The page-graph URL (/<locale>/pages?view=graph). */
     public function graphUrl(): string
     {
-        return $this->base() . '?view=graph';
+        return $this->urlGen->toPage($this->contentSlug(), ['view' => 'graph']);
     }
 
     // -------------------------------------------------------------------------
@@ -133,11 +135,10 @@ final class ContentService
     public function renderBody(string $body): string
     {
         $existing = $this->existingSlugs();
-        $base     = $this->base();
 
-        $resolver = function (string $slug) use ($existing, $base): array {
+        $resolver = function (string $slug) use ($existing): array {
             return [
-                'url'    => $base . '/' . rawurlencode($slug),
+                'url'    => $this->pageUrl($slug),
                 'exists' => isset($existing[$slug]),
             ];
         };
@@ -146,8 +147,8 @@ final class ContentService
         // off-site exit interstitial (default on; toggle with Content.exit_interstitial).
         $rewriter = null;
         if ($this->config->getConfigBool('Content', 'exit_interstitial', true)) {
-            $exitBase = $this->urlGen->toPage($this->t->t('WORDING_EXIT'));
-            $rewriter = static fn (string $url): string => $exitBase . '?to=' . rawurlencode($url);
+            $exitSlug = $this->t->t('WORDING_EXIT');
+            $rewriter = fn (string $url): string => $this->urlGen->toPage($exitSlug, ['to' => $url]);
         }
 
         return $this->markdown->render($body, $resolver, $rewriter);
