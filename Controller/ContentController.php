@@ -14,6 +14,7 @@ use AstrX\Routing\CurrentUrl;
 use AstrX\Template\TemplateVars;
 use AstrX\User\UserSession;
 use AstrX\Kernel\AbstractController;
+use AstrX\Kernel\ReadsPathSegments;
 use AstrX\Admin\AdminPermission;
 use AstrX\News\NewsPermission;
 
@@ -29,7 +30,7 @@ use AstrX\News\NewsPermission;
  * rendering + link resolution lives in {@see ContentService}; this controller
  * only picks the mode and shapes the view model.
  */
-final class ContentController extends AbstractController
+final class ContentController extends AbstractController implements ReadsPathSegments
 {
     public function __construct(
         DiagnosticsCollector                    $collector,

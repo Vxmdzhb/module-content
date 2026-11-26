@@ -41,9 +41,8 @@ final class ContentService
     /** Public URL of a content page by slug. */
     public function pageUrl(string $slug): string
     {
-        return $this->config->getConfigBool('Routing', 'url_rewrite', true)
-            ? $this->base() . '/' . rawurlencode($slug)
-            : $this->urlGen->toPage($this->contentSlug(), ['slug' => $slug]);
+        // The content page reads its slug as a position (ReadsPathSegments).
+        return $this->urlGen->toPagePath($this->contentSlug(), [$slug]);
     }
 
     /** The content index URL (/<locale>/pages). */
@@ -52,10 +51,13 @@ final class ContentService
         return $this->base();
     }
 
-    /** The page-graph URL (/<locale>/pages?view=graph). */
+    /**
+     * The page-graph URL (/<locale>/pages?view=graph). It stays a query
+     * parameter: the first segment after the page is a content page's slug.
+     */
     public function graphUrl(): string
     {
-        return $this->urlGen->toPage($this->contentSlug(), ['view' => 'graph']);
+        return $this->urlGen->toPagePath($this->contentSlug(), [], ['view' => 'graph']);
     }
 
     // -------------------------------------------------------------------------
